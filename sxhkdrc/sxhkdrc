@@ -1,0 +1,106 @@
+#
+# wm independent hotkeys
+#
+
+alt + F2
+	dmenu_run -fn 'artwiz lemon:style=Regular'
+super + Return
+	urxvt
+super + f
+	firefox
+super + r
+	~/.config/bspwm/bspwmrc
+super + n
+	google-chrome-stable --app=https://netflix.com
+XF86LaunchA
+	firefox
+
+# Multimedia
+
+XF86AudioMute
+	amixer set Master toggle
+XF86AudioRaiseVolume
+	amixer set Master 5%+ on
+XF86AudioLowerVolume
+	amixer set Master 5%-
+
+# bspwm hotkeys
+
+# quit bspwm normally
+super + alt + Escape
+	bspc quit
+
+super + x
+	bspc node -c
+
+super + space
+	bspc desktop -l next
+
+# send the newest marked node to the newest preselected node
+super + y
+	bspc node newest.marked.local -n newest.!automatic.local
+
+# swap the current node and the biggest node
+super + g
+	bspc node -s biggest
+
+#
+# state/flags
+#
+
+# set the window state
+
+super + shift + f
+	bspc node -t floating
+super + shift + t
+	bspc node -t tiled 
+
+# set the node flags
+super + ctrl + {m,x,y,z}
+	bspc node -g {marked,locked,sticky,private}
+
+#
+# focus/swap
+#
+
+# focus the node in the given direction
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+# focus the node for the given path jump
+super + {p,b,comma,period}
+	bspc node -f @{parent,brother,first,second}
+
+# focus the next/previous node in the current desktop
+alt + Tab
+	bspc node -f {next,prev}.local
+
+# focus the next/previous desktop in the current monitor
+super + bracket{left,right}
+	bspc desktop -f {prev,next}.local
+
+# focus the last node/desktop
+super + {grave,Tab}
+	bspc {node,desktop} -f last
+
+# focus the older or newer node in the focus history
+super + {o,i}
+	bspc wm -h off; \
+	bspc node {older,newer} -f; \
+	bspc wm -h on
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+# expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + shift + {h,j,k,l}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# move a floating window
+super + {Left,Down,Up,Right}
+	bspc node -v {-40 0,0 40,0 -40,40 0}
